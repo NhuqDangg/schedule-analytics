@@ -203,7 +203,7 @@
   <div class="brand">
     <div>
       <h1 class="serif">Học vụ &amp; Điều phối Phòng học</h1>
-      <p>Kết nối trực tiếp PostgreSQL (Supabase) · Học kỳ 251</p>
+      <p>Kết nối trực tiếp PostgreSQL (Supabase) · Học kỳ 1/2025</p>
     </div>
   </div>
   <nav>
@@ -763,7 +763,7 @@ async function openInstructorModal(instructorId, name) {
     const todaySessions = sessions.filter(s => s.session_date === todayIso);
     document.getElementById("modal-today").textContent = todaySessions.length
       ? `Hôm nay có lớp: ${todaySessions.map(s => `${s.course_id} · ${s.time_slot} · ${s.room_id}`).join(", ")}`
-      : "Hôm nay không có lịch dạy (có thể ngoài phạm vi học kỳ 251).";
+      : "Hôm nay không có lịch dạy (có thể ngoài phạm vi Học kỳ 1/2025).";
 
     // ---- Lịch tuần (các thứ xuất hiện trong toàn học kỳ) ----
     const daysPresent = new Set(sessions.map(s => s.day_code));
