@@ -1,4 +1,4 @@
-University Course Timetabling Analytics
+# University Course Timetabling Analytics
 
 
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
