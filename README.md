@@ -1,6 +1,5 @@
-# MIS 443: University Course Timetabling Analytics
+University Course Timetabling Analytics
 
-**Minions Group** | Business Analytics Student | Eastern International University | Semester 251 (HK1 2025-2026)
 
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
@@ -157,17 +156,7 @@ A data-driven analytics platform for optimizing university course timetabling an
 
 ---
 
-## Team
 
-**Minions Group**
-- Project Lead: Đặng Huỳnh Quỳnh Như
-- Course: MIS 443 Business Data Management
-- Institution: Eastern International University, Becamex Business School
-- Academic Year: 2025-2026 (HK1 / Quarter 1)
-
----
-
-## License
 
 This project is part of academic coursework at Eastern International University. For institutional use or redistribution, contact the project lead.
 
