@@ -1,0 +1,69 @@
+# view | thứ tự | cột | kiểu   — đọc từ Supabase production, ngày 2026-10-15
+mv_lecturer_workload | 1 | instructor_id | character varying(20)
+mv_lecturer_workload | 2 | instructor_name | character varying(255)
+mv_lecturer_workload | 3 | so_nhom_lop | bigint
+mv_lecturer_workload | 4 | tong_gio | numeric
+mv_lecturer_workload | 5 | tong_tin_chi | numeric
+v_building_summary | 1 | building | text
+v_building_summary | 2 | so_phong | bigint
+v_building_summary | 3 | tong_gio | numeric
+v_building_summary | 4 | gio_tb_moi_phong | numeric
+v_conflicts | 1 | week_no | smallint
+v_conflicts | 2 | session_date | date
+v_conflicts | 3 | loai | text
+v_conflicts | 4 | key_id | character varying
+v_conflicts | 5 | key_name | character varying
+v_conflicts | 6 | mon_a | character varying(20)
+v_conflicts | 7 | nhom_a | character varying(10)
+v_conflicts | 8 | gio_a | character varying(20)
+v_conflicts | 9 | mon_b | character varying(20)
+v_conflicts | 10 | nhom_b | character varying(10)
+v_conflicts | 11 | gio_b | character varying(20)
+v_conflicts | 12 | da_xac_nhan | boolean
+v_hours_by_building | 1 | building | text
+v_hours_by_building | 2 | total_hours | numeric
+v_instructor_sessions | 1 | instructor_id | character varying(20)
+v_instructor_sessions | 2 | session_date | date
+v_instructor_sessions | 3 | day_code | character(1)
+v_instructor_sessions | 4 | time_slot | character varying(20)
+v_instructor_sessions | 5 | room_id | character varying(30)
+v_instructor_sessions | 6 | course_id | character varying(20)
+v_instructor_sessions | 7 | group_code | character varying(10)
+v_instructor_workload | 1 | instructor_id | character varying(20)
+v_instructor_workload | 2 | instructor_name | character varying(255)
+v_instructor_workload | 3 | so_nhom_lop | bigint
+v_instructor_workload | 4 | tong_gio | numeric
+v_instructor_workload | 5 | tong_tc | numeric
+v_instructor_workload | 6 | mon_phu_trach | text
+v_instructor_workload | 7 | is_support_staff | boolean
+v_instructor_workload | 8 | employment_type | text
+v_offcampus_summary | 1 | nhom | text
+v_offcampus_summary | 2 | tong_gio | numeric
+v_overview_kpi | 1 | so_gv | bigint
+v_overview_kpi | 2 | so_mon | bigint
+v_overview_kpi | 3 | so_phong | bigint
+v_overview_kpi | 4 | tong_gio | numeric
+v_overview_kpi | 5 | nhom_chua_xep_lich | bigint
+v_room_detail | 1 | room_id | character varying(30)
+v_room_detail | 2 | building | text
+v_room_detail | 3 | tong_gio | numeric
+v_top_instructors | 1 | instructor_id | character varying(20)
+v_top_instructors | 2 | instructor_name | character varying(255)
+v_top_instructors | 3 | total_hours | numeric
+v_week_instructor_hours | 1 | week_no | smallint
+v_week_instructor_hours | 2 | instructor_id | character varying(20)
+v_week_instructor_hours | 3 | instructor_name | character varying(255)
+v_week_instructor_hours | 4 | hours | numeric
+v_week_room_hours | 1 | week_no | smallint
+v_week_room_hours | 2 | room_id | character varying(30)
+v_week_room_hours | 3 | hours | numeric
+v_week_summary | 1 | week_no | smallint
+v_week_summary | 2 | tong_gio | numeric
+v_week_summary | 3 | so_gv | bigint
+v_week_summary | 4 | so_phong | bigint
+v_week_summary | 5 | nhan_hien_thi | text
+v_workload_thresholds_by_group | 1 | employment_type | text
+v_workload_thresholds_by_group | 2 | median_so_nhom | double precision
+v_workload_thresholds_by_group | 3 | median_gio | double precision
+v_workload_thresholds_by_group | 4 | median_tc | double precision
+v_workload_thresholds_by_group | 5 | so_gv | bigint

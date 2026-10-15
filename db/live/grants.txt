@@ -1,0 +1,62 @@
+# Quyền SELECT cho anon/authenticated + trạng thái RLS — đọc từ Supabase production, ngày 2026-10-15
+# đối_tượng | loại | anon_select | authenticated_select | rls_bật
+mv_lecturer_workload | matview | true | true | false
+bridge_class_schedule | table | true | true | true
+dim_class | table | true | true | true
+dim_course | table | true | true | true
+dim_faculty | table | true | true | true
+dim_instructor | table | true | true | true
+dim_major | table | true | true | true
+dim_room | table | true | true | true
+dim_section | table | true | true | true
+dim_week | table | true | true | true
+fact_schedule | table | true | true | true
+fact_schedule_day | table | true | true | true
+fact_teaching_session | table | true | true | true
+hoc_ky_week_map | table | true | true | true
+room_share_confirmed | table | true | true | true
+v_building_summary | view | true | true | false
+v_conflicts | view | true | true | false
+v_hours_by_building | view | true | true | false
+v_instructor_sessions | view | true | true | false
+v_instructor_workload | view | true | true | false
+v_offcampus_summary | view | true | true | false
+v_overview_kpi | view | true | true | false
+v_room_detail | view | true | true | false
+v_top_instructors | view | true | true | false
+v_week_instructor_hours | view | true | true | false
+v_week_room_hours | view | true | true | false
+v_week_summary | view | true | true | false
+v_workload_thresholds_by_group | view | true | true | false
+
+# anon có quyền GHI (INSERT/UPDATE/DELETE/TRUNCATE) trên:
+bridge_class_schedule : DELETE,INSERT,TRUNCATE,UPDATE
+dim_class : DELETE,INSERT,TRUNCATE,UPDATE
+dim_course : DELETE,INSERT,TRUNCATE,UPDATE
+dim_faculty : DELETE,INSERT,TRUNCATE,UPDATE
+dim_instructor : DELETE,INSERT,TRUNCATE,UPDATE
+dim_major : DELETE,INSERT,TRUNCATE,UPDATE
+dim_room : DELETE,INSERT,TRUNCATE,UPDATE
+dim_section : DELETE,INSERT,TRUNCATE,UPDATE
+dim_week : DELETE,INSERT,TRUNCATE,UPDATE
+fact_schedule : DELETE,INSERT,TRUNCATE,UPDATE
+fact_schedule_day : DELETE,INSERT,TRUNCATE,UPDATE
+fact_teaching_session : DELETE,INSERT,TRUNCATE,UPDATE
+hoc_ky_week_map : DELETE,INSERT,TRUNCATE,UPDATE
+mv_lecturer_workload : DELETE,INSERT,TRUNCATE,UPDATE
+room_share_confirmed : DELETE,INSERT,TRUNCATE,UPDATE
+v_building_summary : DELETE,INSERT,TRUNCATE,UPDATE
+v_conflicts : DELETE,INSERT,TRUNCATE,UPDATE
+v_hours_by_building : DELETE,INSERT,TRUNCATE,UPDATE
+v_instructor_sessions : DELETE,INSERT,TRUNCATE,UPDATE
+v_instructor_workload : DELETE,INSERT,TRUNCATE,UPDATE
+v_offcampus_summary : DELETE,INSERT,TRUNCATE,UPDATE
+v_overview_kpi : DELETE,INSERT,TRUNCATE,UPDATE
+v_room_detail : DELETE,INSERT,TRUNCATE,UPDATE
+v_top_instructors : DELETE,INSERT,TRUNCATE,UPDATE
+v_week_instructor_hours : DELETE,INSERT,TRUNCATE,UPDATE
+v_week_room_hours : DELETE,INSERT,TRUNCATE,UPDATE
+v_week_summary : DELETE,INSERT,TRUNCATE,UPDATE
+v_workload_thresholds_by_group : DELETE,INSERT,TRUNCATE,UPDATE
+
+# RLS policies:

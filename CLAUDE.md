@@ -37,9 +37,11 @@ docs/                          # tài liệu dự án
    và phải tạo lại cả các view phụ thuộc. Giữ nguyên tên + thứ tự cột mà frontend đang dùng.
 6. Không đổi tên cột hay giá trị mà frontend đang đọc (vd `loai = 'GV' | 'Phòng'`, `da_xac_nhan`,
    `key_id`, `key_name`, `nhan_hien_thi`) trừ khi sửa `index.html` trong cùng một commit.
+7. PROD_DATABASE_URL luôn kết nối ở chế độ chỉ đọc.
 
 ## 3 quy tắc truy vấn — không được vi phạm
-1. **Tổng giờ dạy** = `SUM(total_hours)` từ `fact_schedule_day` hoặc `fact_teaching_session`.
+1. **Tổng giờ dạy** = `SUM(total_hours)` từ `fact_schedule_day`, hoặc `SUM(hours)` từ `fact_teaching_session`
+   (ở `fact_teaching_session` cột giờ tên là `hours`, không phải `total_hours`).
    KHÔNG BAO GIỜ tính từ `fact_schedule`.
 2. **Tổng tín chỉ** = `SUM(credit_alloc)` từ `fact_schedule`.
 3. **Xung đột lịch** = cùng `session_date` + khung giờ chồng nhau. KHÔNG so "cùng thứ + cùng ca".
@@ -65,11 +67,19 @@ Ngoài ra có `mv_lecturer_workload` (materialized view, frontend không dùng, 
 | `fact_schedule` | 2005 dòng |
 | `fact_schedule_day` | 2096 dòng |
 | `fact_teaching_session` | 10763 dòng |
-| `SUM(credit_alloc)` | **1227.0** |
+| `ROUND(SUM(credit_alloc), 1)` | **1227.0** (giá trị thô 1226.9969 do `credit_alloc` lưu 4 chữ số thập phân) |
 | Số tuần | 16 |
 
 Lệch bất kỳ số nào → dừng, báo người dùng, không làm tiếp.
 Kiểm chứng phải là truy vấn trả kết quả rõ ràng; lưu ý SELECT kiểm chứng KHÔNG tự chặn COMMIT.
+
+## Schema thật (từ db/live, đọc ngày 2026-10-15)
+`db/schema/` là bản thiết kế, đã lệch. Khi khác nhau, tin `db/live/`.
+- `dim_section` có thêm `section_id` tự tăng (`nextval`, UNIQUE).
+- `fact_schedule` nối `dim_section` qua `section_id` (khoá ngoại `fk_fs_section`).
+- `dim_week` có CHECK `week_no` từ 1 đến 16.
+- Độ dài cột: `instructor_id`, `course_id` = `varchar(20)`; `room_id` = `varchar(30)`; `combo_seq` = `varchar(10)`.
+- `credits` là `smallint`; `credit_alloc` là `numeric(8,4)`.
 
 ## Sự thật về 4 kỳ mới (ETL chạy khô 2026-10-15)
 - Số tuần: 251=16, 252=14, 253=12, 254=14, 261=16 → `dim_week` khoá `(hoc_ky, week_no)`, 72 dòng.
