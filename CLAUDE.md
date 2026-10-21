@@ -93,9 +93,17 @@ Kiểm chứng phải là truy vấn trả kết quả rõ ràng; lưu ý SELECT
 - Kỳ 261: ~40% dòng chưa có giảng viên (lịch tạm).
 - `group_no` có dạng E1, V01, HNRS, CNTT, QTKD... — quy tắc cũ "tách theo khoảng trắng → group_code + combo" vẫn đúng.
 
-## Điểm chưa thống nhất (hỏi người dùng trước khi quyết)
-- `hoc_ky_week_map` đang dùng mã kỳ `'HK1_2025-2026'`, còn bản thiết kế đa kỳ dùng `'251'`.
-  Phải chọn MỘT quy ước mã kỳ cho toàn hệ thống.
+## Quy ước mã kỳ (đã chốt 2026-10-21)
+- Mã kỳ toàn hệ thống = chuỗi 3 ký tự theo tên file: `'251'`, `'252'`, `'253'`, `'254'`, `'261'`.
+  Mọi cột `hoc_ky` (bảng, view, ETL) dùng mã này. Không dùng `'HK1_2025-2026'` cho dữ liệu mới.
+- Tên kỳ cho người đọc nằm ở `dim_semester.ten_hien_thi` — nguồn duy nhất. Frontend chỉ hiển thị cột này,
+  không tự ghép chuỗi từ mã kỳ.
+- `dim_semester` CHƯA có trên live (kiểm 2026-10-21). Tạo bằng migration, khoá chính `hoc_ky`.
+  Giá trị `ten_hien_thi` của từng kỳ: hỏi người dùng, không tự suy từ mã.
+- Hiện trạng live cần chuyển đổi (trong cùng migration, chạy trên database THỬ trước):
+  - `hoc_ky_week_map` có 16 dòng `hoc_ky = 'HK1_2025-2026'` → đổi sang `'251'`.
+  - `v_week_summary` gắn cứng `wm.hoc_ky = 'HK1_2025-2026'` trong JOIN → phải sửa cùng lúc,
+    nếu không cột `nhan_hien_thi` sẽ ra NULL.
 
 ## Lỗi đã biết trong frontend (chưa sửa)
 - Tab Theo tuần in xung đột từng dòng, không gộp cặp A/B như tab Xung đột (`groupConflictRows`).
