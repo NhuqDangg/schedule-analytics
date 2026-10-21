@@ -17,17 +17,19 @@ CLAUDE.md                      # file này
 db/schema/01_schema_dim_fact.sql      # bản thiết kế gốc (từ gói dự án)
 db/schema/02_dashboard_views.sql      # bản thiết kế gốc (từ gói dự án)
 db/live/                       # định nghĩa THẬT đọc từ Supabase (nguồn sự thật)
-db/migrations/NNN_ten.sql      # mọi thay đổi schema/view, đánh số tăng dần
+db/migrations/NNN_ten.sql      # thay đổi schema/view ở PROD (hiện không dùng — phương án B)
+db/v2/NNN_ten.sql              # mọi thay đổi schema/view ở V2 (nu-tkb-v2), đánh số tăng dần
 etl/                           # script Python nạp dữ liệu
 data/                          # file Excel (KHÔNG commit — đưa vào .gitignore)
 docs/                          # tài liệu dự án
 ```
 
 ## Quy tắc an toàn (bắt buộc)
-1. **Không chạy lệnh ghi (INSERT/UPDATE/DELETE/ALTER/DROP/CREATE) lên Supabase production
-   nếu người dùng chưa duyệt rõ ràng trong phiên.** Mọi migration chạy trên database THỬ trước.
-2. Mọi thay đổi schema/view là một file `db/migrations/NNN_*.sql`, commit từng bước.
-   Không chạy SQL ghi lẻ ngoài file.
+1. **PROD (`PROD_DATABASE_URL`) luôn chỉ đọc. Không chạy lệnh ghi (INSERT/UPDATE/DELETE/ALTER/DROP/CREATE)
+   lên PROD.** Không sửa bảng ở PROD (phương án B).
+2. **V2 (`V2_DATABASE_URL`, project nu-tkb-v2) được ghi**, nhưng mọi thay đổi schema/view là một file
+   `db/v2/NNN_*.sql`, cho người dùng xem trước và chỉ chạy khi được duyệt rõ ràng trong phiên.
+   Commit từng bước. Không chạy SQL ghi lẻ ngoài file.
 3. Connection string / mật khẩu database chỉ nằm trong `.env` (có trong `.gitignore`).
    Không in ra màn hình, không commit. Anon key trong `index.html` là công khai, được phép.
 4. Trước khi sửa một bảng/view: đọc định nghĩa THẬT từ database
@@ -37,7 +39,7 @@ docs/                          # tài liệu dự án
    và phải tạo lại cả các view phụ thuộc. Giữ nguyên tên + thứ tự cột mà frontend đang dùng.
 6. Không đổi tên cột hay giá trị mà frontend đang đọc (vd `loai = 'GV' | 'Phòng'`, `da_xac_nhan`,
    `key_id`, `key_name`, `nhan_hien_thi`) trừ khi sửa `index.html` trong cùng một commit.
-7. PROD_DATABASE_URL luôn kết nối ở chế độ chỉ đọc.
+7. PROD_DATABASE_URL luôn kết nối ở chế độ chỉ đọc (qua `db/prod_ro.ps1`).
 
 ## 4 quy tắc truy vấn — không được vi phạm
 1. **Tổng giờ dạy** = `SUM(total_hours)` từ `fact_schedule_day`, hoặc `SUM(hours)` từ `fact_teaching_session`
@@ -113,11 +115,12 @@ Dùng để kiểm chứng sau khi nạp schema mới (phương án B).
 - `group_no` có dạng E1, V01, HNRS, CNTT, QTKD... — quy tắc cũ "tách theo khoảng trắng → group_code + combo" vẫn đúng.
 
 ## Hướng đa học kỳ ĐÃ CHỐT (2026-10-21)
-- **Phương án B**: schema mới, nạp lại 5 kỳ từ Excel, dashboard cũ chạy song song.
-- **Không sửa tại chỗ bảng hiện có.** Bản migration nháp 15/10 (thêm `hoc_ky` vào bảng cũ) đã bỏ.
+- **Phương án B** ở project Supabase riêng **nu-tkb-v2** (`V2_DATABASE_URL`): schema mới, nạp lại 5 kỳ
+  từ Excel. Dashboard cũ (PROD) chạy song song đến khi chuyển.
+- **Không sửa bảng ở PROD.** Bản migration nháp 15/10 (thêm `hoc_ky` vào bảng cũ) đã bỏ.
 - Các mục "Sự thật về 4 kỳ mới" và "Quy ước mã kỳ" bên dưới áp dụng cho schema mới.
 
-## Lỗi đang tồn tại (chưa sửa)
+## Lỗi đang tồn tại ở PROD (chưa sửa)
 - `v_instructor_workload` và `mv_lecturer_workload` nhân bản TC ~1,6 lần
   (vi phạm quy tắc truy vấn 4; chi tiết: HANDOFF_2026-10-21 mục 4.1).
 
