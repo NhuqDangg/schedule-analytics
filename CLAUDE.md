@@ -126,12 +126,13 @@ Dùng để kiểm chứng sau khi nạp schema mới (phương án B).
   Mọi cột `hoc_ky` (bảng, view, ETL) dùng mã này. Không dùng `'HK1_2025-2026'` cho dữ liệu mới.
 - Tên kỳ cho người đọc nằm ở `dim_semester.ten_hien_thi` — nguồn duy nhất. Frontend chỉ hiển thị cột này,
   không tự ghép chuỗi từ mã kỳ.
-- `dim_semester` CHƯA có trên live (kiểm 2026-10-21). Tạo bằng migration, khoá chính `hoc_ky`.
+- `dim_semester` CHƯA có trên live (kiểm 2026-10-21). Tạo trong schema mới bằng migration, khoá chính `hoc_ky`.
   Giá trị `ten_hien_thi` của từng kỳ: hỏi người dùng, không tự suy từ mã.
-- Hiện trạng live cần chuyển đổi (trong cùng migration, chạy trên database THỬ trước):
-  - `hoc_ky_week_map` có 16 dòng `hoc_ky = 'HK1_2025-2026'` → đổi sang `'251'`.
-  - `v_week_summary` gắn cứng `wm.hoc_ky = 'HK1_2025-2026'` trong JOIN → phải sửa cùng lúc,
-    nếu không cột `nhan_hien_thi` sẽ ra NULL.
+- Bảng/view hiện có (dashboard cũ) GIỮ NGUYÊN mã cũ, không chuyển đổi (phương án B):
+  - `hoc_ky_week_map` có 16 dòng `hoc_ky = 'HK1_2025-2026'`; `v_week_summary` gắn cứng mã này trong JOIN.
+    Không đổi sang `'251'` — đổi một bên mà quên bên kia thì cột `nhan_hien_thi` ra NULL.
+  - Nhãn tuần cho 5 kỳ nằm trong schema mới, khoá `(hoc_ky, week_no)` với mã `'251'`...
+  - Khi dashboard cũ ngừng chạy thì bỏ cả hai cùng lúc.
 
 ## Lỗi đã biết trong frontend (chưa sửa)
 - Tab Theo tuần in xung đột từng dòng, không gộp cặp A/B như tab Xung đột (`groupConflictRows`).
